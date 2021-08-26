@@ -35,7 +35,7 @@ export class OrderController {
         }
       },
       storage: diskStorage({
-        destination: './uploads/invoices',
+        destination: './files/invoices',
         filename: (req, file, cb) => {
           const filename: string =
             path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4();
