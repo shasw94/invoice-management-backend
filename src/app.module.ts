@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { BrandModule } from './brand/brand.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CommunicationGateway } from './communication.gateway';
 import { OrderModule } from './order/order.module';
 import { ProductModule } from './product/product.module';
 import { StoreModule } from './store/store.module';
@@ -23,6 +22,6 @@ import { StoreModule } from './store/store.module';
     ProductModule,
     StoreModule,
   ],
-  providers: [CommunicationGateway],
+  providers: [],
 })
 export class AppModule {}

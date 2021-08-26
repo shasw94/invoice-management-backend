@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from "src/product/product.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Brand {
@@ -10,4 +11,7 @@ export class Brand {
 
     @Column()
     description: string;
+
+    @OneToMany(() => Product, product => product.brand, {eager: true})
+    products: Product[] 
 }

@@ -12,17 +12,23 @@ import { diskStorage } from 'multer';
 import { OrderService } from './order.service';
 import { v4 as uuidv4 } from 'uuid';
 import path = require('path');
+import { CommunicationGateway } from './communication.gateway';
+import { ReadRowOrderDto } from './dto/read-row-order.dto';
+import { validate } from 'class-validator';
 // import { Express } from 'express';
 
 @Controller('order')
 export class OrderController {
-  constructor(private orderService: OrderService) {}
+  constructor(
+    private orderService: OrderService,
+    private communicationGateway: CommunicationGateway,
+  ) {}
 
   @Post('upload')
   @UseInterceptors(
     FileInterceptor('file', {
       fileFilter: (req: any, file: any, cb: any) => {
-        if (path.extname(file.originalname) === ".xlsx") {
+        if (path.extname(file.originalname) === '.xlsx') {
           cb(null, true);
         } else {
           cb(
@@ -46,8 +52,9 @@ export class OrderController {
       }),
     }),
   )
-  uploadFile(@UploadedFile() file :Express.Multer.File): Observable<Object> {
-    this.orderService.readExcelFile(file);
+  uploadFile(@UploadedFile() file: Express.Multer.File): Observable<Object> {
+    this.orderService.readExcelFile(file, this.communicationGateway);
+    
     return of({ filePath: file.path });
   }
 }

@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { Store } from './Store.entity';
+import { Store } from './store.entity';
 import { CreateStoreDto } from './dto/create-Store.dto';
 import { GetStoreFilterDto } from './dto/get-store.dto';
 
@@ -8,20 +8,16 @@ export class StoreRepository extends Repository<Store> {
   async createStore(createStoreDto: CreateStoreDto): Promise<Store> {
     const { name, location } = createStoreDto;
 
-    const Store = this.create({ name, location });
+    const Store = this.create({ location });
 
     await this.save(Store);
     return Store;
   }
 
   async getStores(filterDto: GetStoreFilterDto): Promise<Store[]> {
-    const { name, search } = filterDto;
+    const { search } = filterDto;
 
     const query = this.createQueryBuilder('store');
-
-    if (name) {
-      query.andWhere('store.name =:name', { name });
-    }
 
     if (search) {
       query.andWhere(

@@ -40,7 +40,6 @@ export class StoreService {
     const store = await this.getStoreById(id);
 
     store.location = location;
-    store.name = name;
     await this.storeRepository.save(store);
 
     return store;
