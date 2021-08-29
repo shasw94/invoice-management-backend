@@ -1,7 +1,7 @@
 import { SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'http';
 
-@WebSocketGateway()
+@WebSocketGateway(5001, {cors: true})
 export class CommunicationGateway {
   @WebSocketServer()
   server: Server;

@@ -16,7 +16,7 @@ export class StoreService {
     return this.storeRepository.createStore(createStoreDto);
   }
 
-  async getStoreById(id: string): Promise<Store> {
+  async getStoreById(id: number): Promise<Store> {
     const found = await this.storeRepository.findOne(id);
     if (!found) {
       throw new NotFoundException(`Store with ID "${id}" not found`);
@@ -24,7 +24,7 @@ export class StoreService {
     return found;
   }
 
-  async deleteStore(id: string): Promise<void> {
+  async deleteStore(id: number): Promise<void> {
     const result = await this.storeRepository.delete(id);
 
     if (result.affected === 0) {
@@ -33,7 +33,7 @@ export class StoreService {
   }
 
   async updateStore(
-    id: string,
+    id: number,
     name: string,
     location: string,
   ): Promise<Store> {

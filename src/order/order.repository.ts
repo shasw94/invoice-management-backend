@@ -6,9 +6,9 @@ import { Order } from "./order.entity";
 @EntityRepository(Order)
 export class OrderRepository extends Repository<Order> {
     async createOrder(createOrderDto: CreateOrderDto): Promise<Order> {
-        const { date, orderNumber, quantity, totalAmountPaid } = createOrderDto;
+        const { date, orderNumber } = createOrderDto;
     
-        const order = this.create({ date, orderNumber, quantity, totalAmountPaid });
+        const order = this.create({ date, orderNumber });
     
         await this.save(order);
         return order;
@@ -24,18 +24,18 @@ export class OrderRepository extends Repository<Order> {
         }
     
         if (orderNumber) {
-          query.andWhere('order.order_number = :orderNumber', {orderNumber});
+          query.andWhere('order.orderNumber = :orderNumber', {orderNumber});
         }
 
         if (minDateRange) {
-            query.andWhere('order.date >=', {minDateRange});
+            query.andWhere('order.date >= :minDateRange', {minDateRange});
         }
 
         if (maxDateRange) {
-            query.andWhere('order.date <=', {maxDateRange});
+            query.andWhere('order.date <= :maxDateRange', {maxDateRange});
         }
     
-        const orders = await query.getMany();
+        const orders = await query.leftJoinAndSelect('order.orderToProduct', "orderToProduct").leftJoinAndSelect('orderToProduct.product', 'product').leftJoinAndSelect('product.brand', 'brand').getMany();
         return orders;
       }
 }

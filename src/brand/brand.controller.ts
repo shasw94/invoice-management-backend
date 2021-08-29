@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -23,18 +24,18 @@ export class BrandController {
   }
 
   @Get('/:id')
-  getBrandById(@Param('id') id: string): Promise<Brand> {
+  getBrandById(@Param('id', ParseIntPipe) id: number): Promise<Brand> {
     return this.brandService.getBrandById(id);
   }
 
   @Delete('/:id')
-  deleteBrand(@Param('id') id: string): Promise<void> {
+  deleteBrand(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.brandService.deleteBrand(id);
   }
 
   @Patch('/:id/status')
   updateBrand(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() createBrandDto: CreateBrandDto,
   ): Promise<Brand> {
     const { name, description } = createBrandDto;

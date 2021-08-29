@@ -4,6 +4,7 @@ import {
     Delete,
     Get,
     Param,
+    ParseIntPipe,
     Patch,
     Post,
     Query,
@@ -24,18 +25,18 @@ export class StoreController {
   }
 
   @Get('/:id')
-  getStoreById(@Param('id') id: string): Promise<Store> {
+  getStoreById(@Param('id', ParseIntPipe) id: number): Promise<Store> {
     return this.storeService.getStoreById(id);
   }
 
   @Delete('/:id')
-  deleteStore(@Param('id') id: string): Promise<void> {
+  deleteStore(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.storeService.deleteStore(id);
   }
 
   @Patch('/:id/status')
   updateStore(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() createStoreDto: CreateStoreDto,
   ): Promise<Store> {
     const { name, location } = createStoreDto;

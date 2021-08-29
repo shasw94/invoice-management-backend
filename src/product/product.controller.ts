@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -23,18 +24,18 @@ export class ProductController {
   }
 
   @Get('/:id')
-  getProductById(@Param('id') id: string): Promise<Product> {
+  getProductById(@Param('id', ParseIntPipe) id: number): Promise<Product> {
     return this.productService.getProductById(id);
   }
 
   @Delete('/:id')
-  deleteProduct(@Param('id') id: string): Promise<void> {
+  deleteProduct(@Param('id') id: number): Promise<void> {
     return this.productService.deleteProduct(id);
   }
 
   @Patch('/:id/status')
   updateProduct(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() createProductDto: CreateProductDto,
   ): Promise<Product> {
     const { name, rate } = createProductDto;

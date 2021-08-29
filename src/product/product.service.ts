@@ -16,7 +16,7 @@ export class ProductService {
     return this.productRepository.createProduct(createProductDto);
   }
 
-  async getProductById(id: string): Promise<Product> {
+  async getProductById(id: number): Promise<Product> {
     const found = await this.productRepository.findOne(id);
     if (!found) {
       throw new NotFoundException(`Product with ID ${id} not found`);
@@ -24,7 +24,7 @@ export class ProductService {
     return found;
   }
 
-  async deleteProduct(id: string): Promise<void> {
+  async deleteProduct(id: number): Promise<void> {
     const result = await this.productRepository.delete(id);
 
     if (result.affected === 0) {
@@ -32,7 +32,7 @@ export class ProductService {
     }
   }
 
-  async updateProduct(id: string, name: string, rate: number): Promise<Product> {
+  async updateProduct(id: number, name: string, rate: number): Promise<Product> {
     const product = await this.getProductById(id);
 
     product.rate = rate;

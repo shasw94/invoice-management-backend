@@ -3,15 +3,19 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Brand {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-    @Column()
+    @Column({
+        unique: true,
+    })
     name: string;
 
-    @Column()
+    @Column({
+        nullable: true,
+    })
     description: string;
 
-    @OneToMany(() => Product, product => product.brand, {eager: true})
+    @OneToMany(() => Product, product => product.brand, {eager: false})
     products: Product[] 
 }

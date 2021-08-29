@@ -20,7 +20,7 @@ export class BrandService {
     return this.brandRepository.createBrand(createBrandDto);
   }
 
-  async getBrandById(id: string): Promise<Brand> {
+  async getBrandById(id: number): Promise<Brand> {
     const found = await this.brandRepository.findOne(id);
     if (!found) {
       throw new NotFoundException(`Brand with ID "${id}" not found`);
@@ -28,7 +28,7 @@ export class BrandService {
     return found;
   }
 
-  async deleteBrand(id: string): Promise<void> {
+  async deleteBrand(id: number): Promise<void> {
     const result = await this.brandRepository.delete(id);
 
     if (result.affected === 0) {
@@ -36,7 +36,7 @@ export class BrandService {
     }
   }
 
-  async updateBrand(id: string, name: string, description: string): Promise<Brand> {
+  async updateBrand(id: number, name: string, description: string): Promise<Brand> {
     const brand = await this.getBrandById(id);
 
     brand.description = description;

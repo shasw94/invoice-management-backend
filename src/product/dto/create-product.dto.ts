@@ -1,6 +1,7 @@
 import {
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsPositive,
   IsString,
 } from 'class-validator';
@@ -11,6 +12,7 @@ export class CreateProductDto {
   name: string;
 
   @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   @IsPositive()
   rate: number;

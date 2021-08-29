@@ -1,33 +1,31 @@
 import { Product } from 'src/product/product.entity';
+import { Store } from 'src/store/store.entity';
 import {
   Column,
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { OrderToProduct } from './order.product.entity';
 
 @Entity()
 export class Order {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   date: string;
 
-  @Column()
+  @Column({
+    unique: true,
+  })
   orderNumber: number;
 
-  @Column()
-  quantity: number;
 
-  @Column()
-  totalAmountPaid: number;
+  @OneToMany(() => OrderToProduct, orderToProduct => orderToProduct.order, {eager: true})
+  orderToProduct: OrderToProduct[];
 
-  @ManyToMany(() => Product, (product) => product.orders, {
-    cascade: true,
-    eager: true,
-  })
-  @JoinTable()
-  products: Product[];
 }
